@@ -28,4 +28,9 @@ export default class ProductService {
     const product = await this.productModel.create({ name, amount });
     return { statusCode: 201, result: product };
   }
+
+  async getAll(): Promise<IServiceProduct> {
+    const products = await this.productModel.findAll();
+    return { statusCode: 200, result: products };
+  }
 }

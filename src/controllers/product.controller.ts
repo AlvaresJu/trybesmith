@@ -9,4 +9,9 @@ export default class ProductController {
     const { statusCode, result } = await this.productService.insert({ name, amount });
     return res.status(statusCode).json(result);
   }
+
+  async getAll(_req: Request, res: Response) {
+    const { statusCode, result } = await this.productService.getAll();
+    return res.status(statusCode).json(result);
+  }
 }
