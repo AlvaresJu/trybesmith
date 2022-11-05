@@ -1,0 +1,37 @@
+import Joi from 'joi';
+import { IServiceUser, IUser } from '../interfaces/user';
+import UserModel from '../models/user.model';
+import HttpException from '../utils/httpException';
+import JwtAuth from '../utils/jwtAuth';
+
+export default class UserService {
+  userModel = new UserModel();
+
+  jwtAuth = new JwtAuth();
+
+  userSchema = Joi.object({
+    username: Joi.string().min(3).required(),
+    classe: Joi.string().min(3).required(),
+    level: Joi.number().min(1).required(),
+    password: Joi.string().min(8).required(),
+  });
+
+  validateUserData(newUser: IUser): IUser {
+    const { error, value } = this.userSchema.validate(newUser);
+    if (error) throw new HttpException(422, error.message);
+
+    return value;
+  }
+
+  async insert(newUser: IUser): Promise<IServiceUser> {
+    const { username, classe, level, password } = this.validateUserData(newUser);
+
+    if (await this.userModel.findByUsername(username)) {
+      throw new HttpException(409, 'User already registered');
+    }
+
+    const { id } = await this.userModel.create({ username, classe, level, password });
+    const token = this.jwtAuth.creteToken({ id, username });
+    return { statusCode: 201, result: token };
+  }
+}
