@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import errorMiddleware from './middlewares/error.middleware';
+import loginRouter from './routes/login.routes';
 import orderRouter from './routes/order.routes';
 import productRouter from './routes/product.routes';
 import userRouter from './routes/user.routes';
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use('/products', productRouter);
 app.use('/users', userRouter);
 app.use('/orders', orderRouter);
+app.use('/login', loginRouter);
 
 app.use(errorMiddleware);
 

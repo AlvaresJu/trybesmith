@@ -34,4 +34,14 @@ export default class UserService {
     const token = this.jwtAuth.creteToken({ id, username });
     return { statusCode: 201, result: token };
   }
+
+  async login(username: string, password: string): Promise<IServiceUser> {
+    const user = await this.userModel.findByUsername(username);
+    if (!user || user.password !== password) {
+      throw new HttpException(401, 'Username or password invalid');
+    }
+
+    const token = this.jwtAuth.creteToken({ id: user.id, username });
+    return { statusCode: 200, result: token };
+  }
 }

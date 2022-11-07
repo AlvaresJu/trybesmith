@@ -10,4 +10,10 @@ export default class UserController {
       username, classe, level, password });
     return res.status(statusCode).json({ token: result });
   }
+
+  async login(req: Request, res: Response) {
+    const { username, password } = req.body;
+    const { statusCode, result } = await this.userService.login(username, password);
+    return res.status(statusCode).json({ token: result });
+  }
 }
