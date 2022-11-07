@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-import { IProduct, IProductId } from '../interfaces/product';
+import { IProduct, IProductCount, IProductId } from '../interfaces/product';
 import connection from './connection';
 
 export default class ProductModel {
@@ -29,5 +29,22 @@ export default class ProductModel {
       [productName],
     );
     return result;
+  }
+
+  async countById(productsIds: number[]): Promise<number> {
+    const placeholders: string = productsIds.map((_key) => '?').join(', ');
+
+    const [[{ idCount }]] = await this.connection.execute<IProductCount[] & RowDataPacket[]>(
+      `SELECT COUNT(id) AS idCount FROM Trybesmith.Products WHERE id IN (${placeholders})`,
+      [...productsIds],
+    );
+    return idCount;
+  }
+
+  async updateOrderId(productId: number, orderId: number) {
+    return this.connection.execute<ResultSetHeader>(
+      'UPDATE Trybesmith.Products SET orderId = ? WHERE id = ?',
+      [orderId, productId],
+    );
   }
 }

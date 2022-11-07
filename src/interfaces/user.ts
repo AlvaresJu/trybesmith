@@ -17,4 +17,6 @@ export interface IServiceUser {
 export interface IAuthData {
   id: number,
   username: string,
+  iat?: number,
+  exp?: number,
 }

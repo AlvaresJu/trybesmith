@@ -1,5 +1,5 @@
 export interface IOrderId {
-  id: number,
+  id?: number,
   userId: number,
 }
 
@@ -9,5 +9,5 @@ export interface IOrderProducts extends IOrderId {
 
 export interface IServiceOrder {
   statusCode: number,
-  result: IOrderProducts[],
+  result: IOrderProducts | IOrderProducts[],
 }
