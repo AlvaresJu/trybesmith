@@ -1,11 +1,11 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
-import { IProduct } from '../interfaces/product';
+import { IProduct, IProductId } from '../interfaces/product';
 import connection from './connection';
 
 export default class ProductModel {
   connection = connection;
 
-  async create(newProduct: IProduct): Promise<IProduct> {
+  async create(newProduct: IProduct): Promise<IProductId> {
     const columns: string = Object.keys(newProduct).join(', ');
     const placeholders: string = Object.keys(newProduct).map((_key) => '?').join(', ');
     
@@ -16,15 +16,15 @@ export default class ProductModel {
     return { id: insertId, ...newProduct };
   }
 
-  async findAll(): Promise<IProduct[]> {
-    const [result] = await this.connection.execute<IProduct[] & RowDataPacket[]>(
+  async findAll(): Promise<IProductId[]> {
+    const [result] = await this.connection.execute<IProductId[] & RowDataPacket[]>(
       'SELECT * FROM Trybesmith.Products',
     );
     return result;
   }
 
-  async findByName(productName: string): Promise<IProduct> {
-    const [[result]] = await this.connection.execute<IProduct[] & RowDataPacket[]>(
+  async findByName(productName: string): Promise<IProductId> {
+    const [[result]] = await this.connection.execute<IProductId[] & RowDataPacket[]>(
       'SELECT * FROM Trybesmith.Products WHERE name = ?',
       [productName],
     );

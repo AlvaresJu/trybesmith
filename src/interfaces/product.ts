@@ -1,11 +1,14 @@
 export interface IProduct {
-  id?: number,
   name: string,
   amount: string,
   orderId?: number,
 }
 
+export interface IProductId extends IProduct {
+  id: number,
+}
+
 export interface IServiceProduct {
   statusCode: number,
-  result: IProduct | IProduct[],
+  result: IProductId | IProductId[],
 }

@@ -11,7 +11,7 @@ export interface IUserId extends IUser {
 
 export interface IServiceUser {
   statusCode: number,
-  result: string | IUser[],
+  result: string,
 }
 
 export interface IAuthData {
