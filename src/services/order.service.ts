@@ -5,25 +5,31 @@ import ProductModel from '../models/product.model';
 import HttpException from '../utils/httpException';
 
 export default class OrderService {
-  orderModel = new OrderModel();
+  private orderModel: OrderModel;
 
-  productModel = new ProductModel();
+  private productModel: ProductModel;
 
-  productsIdsSchema = Joi.array().min(1).items(Joi.number().integer().min(1)).unique()
-    .required()
-    .label('productsIds')
-    .messages({
-      'array.min': '"productsIds" must include only numbers',
-    });
+  private productsIdsSchema: Joi.ArraySchema;
+  
+  constructor() {
+    this.orderModel = new OrderModel();
+    this.productModel = new ProductModel();
+    this.productsIdsSchema = Joi.array().min(1).items(Joi.number().integer().min(1)).unique()
+      .required()
+      .label('productsIds')
+      .messages({
+        'array.min': '"productsIds" must include only numbers',
+      });
+  }
 
-  validateOrderData(productsIds: number[]): number[] {
+  private validateOrderData(productsIds: number[]): number[] {
     const { error, value } = this.productsIdsSchema.validate(productsIds);
     if (error) throw new HttpException(422, error.message);
 
     return value;
   }
 
-  async checkProducts(productsIds: number[]): Promise<boolean> {
+  private async checkProducts(productsIds: number[]): Promise<boolean> {
     const productsInDb = await this.productModel.countById(productsIds);
     return productsInDb !== productsIds.length;
   }

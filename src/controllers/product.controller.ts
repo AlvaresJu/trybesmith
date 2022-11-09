@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import ProductService from '../services/product.service';
 
 export default class ProductController {
-  productService = new ProductService();
+  private productService: ProductService;
+
+  constructor() {
+    this.productService = new ProductService();
+  }
 
   async insert(req: Request, res: Response) {
     const { name, amount } = req.body;

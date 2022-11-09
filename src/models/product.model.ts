@@ -1,9 +1,14 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { Pool } from 'mysql2/promise';
 import { IProduct, IProductCount, IProductId } from '../interfaces/product';
 import connection from './connection';
 
 export default class ProductModel {
-  connection = connection;
+  private connection: Pool;
+
+  constructor() {
+    this.connection = connection;
+  }
 
   async create(newProduct: IProduct): Promise<IProductId> {
     const columns: string = Object.keys(newProduct).join(', ');

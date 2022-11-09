@@ -4,14 +4,19 @@ import ProductModel from '../models/product.model';
 import HttpException from '../utils/httpException';
 
 export default class ProductService {
-  productModel = new ProductModel();
+  private productModel: ProductModel;
+  
+  private productSchema: Joi.ObjectSchema;
 
-  productSchema = Joi.object({
-    name: Joi.string().min(3).required(),
-    amount: Joi.string().min(3).required(),
-  });
+  constructor() {
+    this.productModel = new ProductModel();
+    this.productSchema = Joi.object({
+      name: Joi.string().min(3).required(),
+      amount: Joi.string().min(3).required(),
+    });
+  }
 
-  validateProductData(newProduct: IProduct): IProduct {
+  private validateProductData(newProduct: IProduct): IProduct {
     const { error, value } = this.productSchema.validate(newProduct);
     if (error) throw new HttpException(422, error.message);
   

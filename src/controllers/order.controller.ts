@@ -4,11 +4,16 @@ import HttpException from '../utils/httpException';
 import JwtAuth from '../utils/jwtAuth';
 
 export default class OrderController {
-  orderService = new OrderService();
+  private orderService: OrderService;
 
-  jwtAuth = new JwtAuth();
+  private jwtAuth: JwtAuth;
 
-  validateAuth(token: string | undefined): number {
+  constructor() {
+    this.orderService = new OrderService();
+    this.jwtAuth = new JwtAuth();
+  }
+
+  private validateAuth(token: string | undefined): number {
     if (!token) throw new HttpException(401, 'Token not found');
 
     const userId = this.jwtAuth.validateToken(token);

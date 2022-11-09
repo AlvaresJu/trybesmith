@@ -1,9 +1,14 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { Pool } from 'mysql2/promise';
 import { IUser, IUserId } from '../interfaces/user';
 import connection from './connection';
 
 export default class UserModel {
-  connection = connection;
+  private connection: Pool;
+
+  constructor() {
+    this.connection = connection;
+  }
 
   async create(newUser: IUser): Promise<IUserId> {
     const columns: string = Object.keys(newUser).join(', ');

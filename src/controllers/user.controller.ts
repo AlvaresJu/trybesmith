@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import UserService from '../services/user.service';
 
 export default class UserController {
-  userService = new UserService();
+  private userService: UserService;
+
+  constructor() {
+    this.userService = new UserService();
+  }
 
   async insert(req: Request, res: Response) {
     const { username, classe, level, password } = req.body;

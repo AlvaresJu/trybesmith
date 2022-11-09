@@ -1,9 +1,14 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
+import { Pool } from 'mysql2/promise';
 import { IOrderProducts } from '../interfaces/order';
 import connection from './connection';
 
 export default class OrderModel {
-  connection = connection;
+  private connection: Pool;
+
+  constructor() {
+    this.connection = connection;
+  }
 
   async create(userId: number): Promise<number> {
     const [{ insertId }] = await this.connection.execute<ResultSetHeader>(

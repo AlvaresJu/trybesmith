@@ -5,18 +5,24 @@ import HttpException from '../utils/httpException';
 import JwtAuth from '../utils/jwtAuth';
 
 export default class UserService {
-  userModel = new UserModel();
+  private userModel: UserModel;
 
-  jwtAuth = new JwtAuth();
+  private jwtAuth: JwtAuth;
 
-  userSchema = Joi.object({
-    username: Joi.string().min(3).required(),
-    classe: Joi.string().min(3).required(),
-    level: Joi.number().min(1).required(),
-    password: Joi.string().min(8).required(),
-  });
+  private userSchema: Joi.ObjectSchema;
 
-  validateUserData(newUser: IUser): IUser {
+  constructor() {
+    this.userModel = new UserModel();
+    this.jwtAuth = new JwtAuth();
+    this.userSchema = Joi.object({
+      username: Joi.string().min(3).required(),
+      classe: Joi.string().min(3).required(),
+      level: Joi.number().min(1).required(),
+      password: Joi.string().min(8).required(),
+    });
+  }
+
+  private validateUserData(newUser: IUser): IUser {
     const { error, value } = this.userSchema.validate(newUser);
     if (error) throw new HttpException(422, error.message);
 
