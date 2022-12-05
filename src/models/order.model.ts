@@ -1,7 +1,7 @@
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { Pool } from 'mysql2/promise';
 import { IOrderProducts } from '../interfaces/order';
-import connection from './connection';
+import connection from '../database/connection';
 
 export default class OrderModel {
   private connection: Pool;
