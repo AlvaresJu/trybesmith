@@ -36,11 +36,12 @@ export default class ProductModel {
     return result;
   }
 
-  async countById(productsIds: number[]): Promise<number> {
+  async countAvailableById(productsIds: number[]): Promise<number> {
     const placeholders: string = productsIds.map((_key) => '?').join(', ');
 
     const [[{ idCount }]] = await this.connection.execute<IProductCount[] & RowDataPacket[]>(
-      `SELECT COUNT(id) AS idCount FROM Trybesmith.Products WHERE id IN (${placeholders})`,
+      `SELECT COUNT(id) AS idCount FROM Trybesmith.Products 
+      WHERE id IN (${placeholders}) AND orderId IS NULL`,
       [...productsIds],
     );
     return idCount;

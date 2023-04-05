@@ -30,8 +30,8 @@ export default class OrderService {
   }
 
   private async checkProducts(productsIds: number[]): Promise<boolean> {
-    const productsInDb = await this.productModel.countById(productsIds);
-    return productsInDb !== productsIds.length;
+    const productsAvailableInDb = await this.productModel.countAvailableById(productsIds);
+    return productsAvailableInDb !== productsIds.length;
   }
 
   async updateOrderProducts(productsIds: number[], orderId: number) {
@@ -44,7 +44,7 @@ export default class OrderService {
     const products = this.validateOrderData(productsIds);
 
     if (await this.checkProducts(products)) {
-      throw new HttpException(400, 'One or more "productsIds" not found');
+      throw new HttpException(400, 'One or more "productsIds" not found or not available to order');
     }
 
     const orderId = await this.orderModel.create(userId);
