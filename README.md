@@ -113,10 +113,10 @@
   Como descrito, este projeto foi proposto pela [Trybe](https://www.betrybe.com/) e desenvolvido por _[Juliana Álvares](https://www.linkedin.com/in/juliana-alvares/)_ durante o curso de Desenvolvimento Web realizado. Por isso, foram disponibilizados pela Trybe alguns arquivos base de configurações e auxiliares ao desenvolvimento do projeto. Segue especificação de autoria dos principais documentos:
   
   Arquivos/diretórios desenvolvidos pela autora do projeto (Juliana Álvares):
-  > README.md | images/** | src/controllers/** | src/database/connection.ts | src/interfaces/** | src/middlewares/** | src/models/** | src/routes/** | src/services/** | src/utils/** | src/app.ts
+  > README.md | images/** | quase todos os arquivos em src/*
   
   Arquivos/diretórios desenvolvidos pela Trybe:
-  > docker-compose.yml | .eslintrc.json | package.json | package-lock.json | tsconfig.json | src/index.ts | src/database/Trybesmith.sql | src/database/recreateDatabase.ts
+  > .eslintrc.json | package.json | package-lock.json | tsconfig.json | src/index.ts | src/database/Trybesmith.sql | src/database/recreateDatabase.ts
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
